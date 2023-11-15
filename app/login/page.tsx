@@ -1,6 +1,7 @@
+import BackIcon from "@/components/BackIcon";
+import Title from "@/components/Title";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function Login({
@@ -39,35 +40,23 @@ export default async function Login({
   };
 
   return (
-    <div>
-      <Link href="/">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"
-        >
-          <polyline points="15 18 9 12 15 6" />
-        </svg>{" "}
-        Back
-      </Link>
-
+    <>
+      <BackIcon href={"/"} text={"Home"} />
+      <Title title={"Login"} subtitle={"Login to your account"} />
       <form action={signIn}>
-        <label htmlFor="email">Email</label>
-        <input name="email" placeholder="you@example.com" required />
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          placeholder="••••••••"
-          required
-        />
+        <div>
+          <label htmlFor="email">Email</label>
+          <input name="email" placeholder="you@example.com" required />
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            placeholder="••••••••"
+            required
+          />
+        </div>
         <button>Sign In</button>
         {searchParams?.message && (
           <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
@@ -75,6 +64,6 @@ export default async function Login({
           </p>
         )}
       </form>
-    </div>
+    </>
   );
 }
