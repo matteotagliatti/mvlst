@@ -17,5 +17,8 @@
     "astro": "^4.2.3",
     "pocketbase": "^0.20.3",
     "tailwindcss": "^3.4.1"
+  },
+  "devDependencies": {
+    "zod": "^3.22.4"
   }
 }
