@@ -15,7 +15,9 @@
     "@types/alpinejs": "^3.13.6",
     "alpinejs": "^3.13.4",
     "astro": "^4.2.3",
+    "astro-htmx": "^1.0.5",
     "astro-icon": "^1.1.0",
+    "htmx.org": "^1.9.10",
     "pocketbase": "^0.20.3",
     "tailwindcss": "^3.4.1"
   },
