@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 const isLogged: boolean = Astro.locals.pb.authStore.isValid;
 
 if (!isLogged) {
-  return redirect("/");
+  return Astro.redirect("/");
 }
 ---
 

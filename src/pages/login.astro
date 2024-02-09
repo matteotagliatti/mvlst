@@ -5,7 +5,7 @@ import Layout from "../layouts/Layout.astro";
 <Layout title="Login">
   <form
     hx-post="/api/login"
-    hx-target="#output"
+    hx-target="#error"
     class="mx-auto flex max-w-xl flex-col gap-4 p-4"
   >
     <div>
@@ -33,6 +33,5 @@ import Layout from "../layouts/Layout.astro";
       <span>Log in</span>
     </button>
   </form>
-  <div id="output"></div>
   <div id="error" class="text-red-500"></div>
 </Layout>

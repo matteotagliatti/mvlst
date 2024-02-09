@@ -32,9 +32,6 @@ if (Astro.request.method === "POST") {
     return new Response(JSON.stringify(result.error.errors[0].message), {
       status: 200,
       statusText: "Bad Request",
-      headers: {
-        "HX-Retarget": "#error",
-      },
     });
   }
 
@@ -53,9 +50,6 @@ if (Astro.request.method === "POST") {
     return new Response("User not found", {
       status: 200,
       statusText: "Unauthorized",
-      headers: {
-        "HX-Retarget": "#error",
-      },
     });
   }
 }
