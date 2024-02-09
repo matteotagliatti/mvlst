@@ -1,6 +1,5 @@
 ---
 import { z } from "zod";
-import { login } from "../../utils/auth";
 export const partial = true;
 
 if (Astro.request.method === "POST") {
@@ -40,31 +39,24 @@ if (Astro.request.method === "POST") {
   }
 
   // 2. Start the login process
-  const resp = await login(email, password);
+  try {
+    await Astro.locals.pb.collection("users").authWithPassword(email, password);
 
-  if (!resp) {
-    let response = new Response("User not found", {
-      status: 401,
+    return new Response("Logged in", {
+      status: 200,
+      statusText: "OK",
+      headers: {
+        "HX-Redirect": "/",
+      },
+    });
+  } catch (error) {
+    return new Response("User not found", {
+      status: 200,
       statusText: "Unauthorized",
       headers: {
         "HX-Retarget": "#error",
       },
     });
-
-    return response;
   }
-
-  Astro.cookies.set("token", resp.token, {
-    path: "/",
-    httpOnly: true,
-  });
-
-  return new Response("Logged in", {
-    status: 200,
-    statusText: "OK",
-    headers: {
-      "HX-Redirect": "/",
-    },
-  });
 }
 ---
