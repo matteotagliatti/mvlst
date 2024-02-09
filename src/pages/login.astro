@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+import NavLink from "../components/nav-link.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
@@ -6,32 +8,48 @@ import Layout from "../layouts/Layout.astro";
   <form
     hx-post="/api/login"
     hx-target="#error"
-    class="mx-auto flex max-w-xl flex-col gap-4 p-4"
+    hx-indicator="#loader"
+    class="mx-auto w-full max-w-xs space-y-4"
   >
-    <div>
-      <label for="email">Email address</label>
+    <NavLink href="/" icon="back" />
+    <div class="flex w-full flex-col gap-y-1">
+      <label class="text-sm" for="email">Email address</label>
       <input
         required
         autofocus
         id="email"
         name="email"
         type="email"
+        placeholder="johndoe@gmail.com"
         autocomplete="email"
+        class="rounded-full border border-black px-3 py-1.5 placeholder:text-gray-400"
       />
     </div>
-    <div>
-      <label for="password">Password</label>
+    <div class="flex w-full flex-col gap-y-1">
+      <label class="text-sm" for="password">Password</label>
       <input
         required
         id="password"
         name="password"
         type="password"
+        placeholder="password"
         autocomplete="current-password"
+        minlength={6}
+        class="rounded-full border border-black px-3 py-1.5 placeholder:text-gray-400"
       />
     </div>
-    <button type="submit">
-      <span>Log in</span>
-    </button>
+    <div class="flex items-center gap-2">
+      <button
+        class="rounded-full border border-black bg-black px-3 py-1.5 text-white transition-all duration-300 ease-in-out hover:bg-white hover:text-black"
+        type="submit"
+      >
+        <span>Log in</span>
+      </button>
+      <div class="htmx-indicator" id="loader" x-cloak>
+        <Icon name="loader" class="h-6 w-6 animate-spin text-black" />
+      </div>
+    </div>
+
+    <div id="error" class="text-sm text-red-500"></div>
   </form>
-  <div id="error" class="text-red-500"></div>
 </Layout>
