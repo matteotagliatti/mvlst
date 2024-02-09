@@ -1,82 +1,38 @@
 ---
-import { z } from "zod";
-import { login } from "../utils/users";
-
-if (Astro.request.method === "POST") {
-  // 1. Get the data and validate it
-  const data = await Astro.request.formData();
-  const email = String(data.get("email"));
-  const password = String(data.get("password"));
-
-  const result = z
-    .object({
-      email: z
-        .string({
-          invalid_type_error: "Invalid email",
-          required_error: "Email is required",
-        })
-        .trim()
-        .toLowerCase()
-        .min(1, "Email is required")
-        .email(),
-      password: z
-        .string({
-          invalid_type_error: "Invalid password",
-          required_error: "Password is required",
-        })
-        .min(6, "Password must be atlest 6 digit long"),
-    })
-    .safeParse({ email, password });
-
-  if (!result.success) {
-    /* Error */
-    return;
-  }
-
-  // 2. Start the login process
-  const resp = await login(email, password);
-
-  if (!resp) {
-    alert("Invalid email or password");
-    return;
-  }
-
-  Astro.cookies.set("token", resp.token, {
-    path: "/",
-    httpOnly: true,
-  });
-  return Astro.redirect("/");
-}
+import Layout from "../layouts/Layout.astro";
 ---
 
-<form
-  method="post"
-  target="/login"
-  hx-post="/login"
-  hx-swap="outerHTML"
-  hx-indicator="#login-btn"
->
-  <label for="email"> Email address</label>
-  <input
-    required
-    autofocus
-    id="email"
-    name="email"
-    type="email"
-    autocomplete="email"
-    data-loading-disable
-  />
-  <label for="password"> Password</label>
-  <input
-    id="password"
-    name="password"
-    type="password"
-    autocomplete="current-password"
-    required
-    data-loading-disable
-  />
-  <button id="login-btn" type="submit">
-    <span class="btn-content">Log in</span>
-    <span class="htmx-indicator">Loading...</span>
-  </button>
-</form>
+<Layout title="Login">
+  <form
+    hx-post="/api/login"
+    hx-target="#output"
+    class="flex flex-col gap-4 mx-auto max-w-xl p-4"
+  >
+    <div>
+      <label for="email">Email address</label>
+      <input
+        required
+        autofocus
+        id="email"
+        name="email"
+        type="email"
+        autocomplete="email"
+      />
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <input
+        required
+        id="password"
+        name="password"
+        type="password"
+        autocomplete="current-password"
+      />
+    </div>
+    <button type="submit">
+      <span>Log in</span>
+    </button>
+  </form>
+  <div id="output"></div>
+  <div id="error" class="text-red-500"></div>
+</Layout>
