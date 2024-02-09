@@ -1,0 +1,12 @@
+---
+if (Astro.request.method === "POST") {
+  await Astro.locals.pb.authStore.clear();
+
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "HX-Redirect": "/",
+    },
+  });
+}
+---

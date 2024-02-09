@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/Layout.astro";
+const isLogged: boolean = Astro.locals.pb.authStore.isValid;
+
+if (!isLogged) {
+  return redirect("/");
+}
+---
+
+<Layout title="mvlst">
+  <h1>App</h1>
+  <form hx-get="/api/movies" hx-target="#movies">
+    <button type="submit">Load movies</button>
+  </form>
+  <section id="movies"></section>
+</Layout>
