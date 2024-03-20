@@ -22,9 +22,6 @@ export async function getSearch(name: string | null) {
     const data = await response.json();
     const movies = data.results as TMDBResponseResult[];
 
-    console.log("movies", movies);
-    console.log("env", import.meta.env.TMDB_ACCESS_TOKEN);
-
     return movies;
   } catch (e) {
     console.log(e);
