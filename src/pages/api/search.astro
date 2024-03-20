@@ -1,0 +1,13 @@
+---
+export const partial = true;
+import MovieLink from "@/components/movie-link.astro";
+import { getSearch } from "@/lib/search";
+const name = Astro.url.searchParams.get("name");
+const movies = await getSearch(name);
+---
+
+{
+  movies?.map((movie) => {
+    return <MovieLink title={movie.title} poster={movie.poster_path} />;
+  })
+}
