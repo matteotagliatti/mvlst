@@ -6,7 +6,7 @@ const isLogged: boolean = Astro.locals.pb.authStore.isValid;
 ---
 
 <nav
-  class="fixed bottom-4 left-1/2 flex w-fit -translate-x-1/2 items-center justify-center gap-4 rounded-xl border border-black bg-white p-2"
+  class="fixed bottom-4 left-1/2 flex w-fit -translate-x-1/2 items-center justify-center gap-2 rounded-xl border border-black bg-white p-2"
 >
   {
     isLogged ? (
@@ -14,14 +14,12 @@ const isLogged: boolean = Astro.locals.pb.authStore.isValid;
         <NavLink icon="search" href="/app/search">
           <Tooltip text="Search a movie" />
         </NavLink>
-        <div class="flex items-center gap-2">
-          <NavLink icon="popcorn" href="/app">
-            <Tooltip text="Your Watchlist" />
-          </NavLink>
-          <NavLink icon="clapperboard" href="/app/to-watch">
-            <Tooltip text="To Watch" />
-          </NavLink>
-        </div>
+        <NavLink icon="popcorn" href="/app">
+          <Tooltip text="Your Watchlist" />
+        </NavLink>
+        <NavLink icon="clapperboard" href="/app/to-watch">
+          <Tooltip text="To Watch" />
+        </NavLink>
         <NavButton icon="user">
           <Tooltip text="Logout" />
         </NavButton>
