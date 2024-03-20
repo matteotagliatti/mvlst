@@ -1,0 +1,19 @@
+---
+interface Props {
+  title: string;
+  poster: string;
+}
+
+const { title, poster } = Astro.props;
+---
+
+<a
+  href="#"
+  class="w-fit rounded transition-all hover:-translate-y-1 hover:shadow"
+>
+  <img
+    class="rounded"
+    src=`https://image.tmdb.org/t/p/w200/${poster}`
+    alt={title}
+  />
+</a>
