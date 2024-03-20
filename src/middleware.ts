@@ -1,10 +1,13 @@
 import PocketBase from "pocketbase";
 
 import { defineMiddleware } from "astro/middleware";
+import type { TypedPocketBase } from "./types/pocketbase";
 
 export const onRequest = defineMiddleware(
   async ({ locals, request }: any, next: () => any) => {
-    locals.pb = new PocketBase(import.meta.env.POCKETBASE_URL);
+    locals.pb = new PocketBase(
+      import.meta.env.PB_TYPEGEN_URL,
+    ) as TypedPocketBase;
 
     // load the store data from the request cookie string
     locals.pb.authStore.loadFromCookie(request.headers.get("cookie") || "");
@@ -24,5 +27,5 @@ export const onRequest = defineMiddleware(
     response.headers.append("set-cookie", locals.pb.authStore.exportToCookie());
 
     return response;
-  }
+  },
 );
