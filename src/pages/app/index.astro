@@ -1,16 +1,24 @@
 ---
-import Layout from "../../layouts/AppLayout.astro";
+import Movie from "@/components/movie.astro";
+import Layout from "@/layouts/AppLayout.astro";
+import { getMovies } from "@/lib/pocketbase";
+
 const isLogged: boolean = Astro.locals.pb.authStore.isValid;
 
 if (!isLogged) {
   return Astro.redirect("/");
 }
+
+const movies = await getMovies(Astro.locals.pb);
 ---
 
 <Layout title="mvlst">
-  <h1>App</h1>
-  <form hx-get="/api/movies" hx-target="#movies">
-    <button type="submit">Load movies</button>
-  </form>
-  <section id="movies"></section>
+  <h1>Movies</h1>
+  <section>
+    {
+      movies.map((movie) => {
+        return <Movie title={movie.title} />;
+      })
+    }
+  </section>
 </Layout>
