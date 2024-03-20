@@ -1,12 +1,66 @@
 ---
+import NavLink from "@/components/nav-link.astro";
+import Button from "@/components/ui/button.astro";
+import Layout from "@/layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
-import NavLink from "../components/nav-link.astro";
-import Layout from "../layouts/Layout.astro";
+import { z } from "zod";
+
+if (Astro.request.method === "POST") {
+  // 1. Get the data and validate it
+  const data = await Astro.request.formData();
+  const email = String(data.get("email"));
+  const password = String(data.get("password"));
+
+  const result = z
+    .object({
+      email: z
+        .string({
+          invalid_type_error: "Invalid email",
+          required_error: "Email is required",
+        })
+        .trim()
+        .toLowerCase()
+        .min(1, "Email is required")
+        .email(),
+      password: z
+        .string({
+          invalid_type_error: "Invalid password",
+          required_error: "Password is required",
+        })
+        .min(6, "Password must be atlest 6 digit long"),
+    })
+    .safeParse({ email, password });
+
+  if (!result.success) {
+    return new Response(JSON.stringify(result.error.errors[0].message), {
+      status: 200,
+      statusText: "Bad Request",
+    });
+  }
+
+  // 2. Start the login process
+  try {
+    await Astro.locals.pb.collection("users").authWithPassword(email, password);
+
+    return new Response("Logged in", {
+      status: 200,
+      statusText: "OK",
+      headers: {
+        "HX-Redirect": "/app",
+      },
+    });
+  } catch (error) {
+    return new Response("Failed to authenticate", {
+      status: 200,
+      statusText: "Unauthorized",
+    });
+  }
+}
 ---
 
 <Layout title="Login">
   <form
-    hx-post="/api/login"
+    hx-post="/login"
     hx-target="#error"
     hx-indicator="#loader"
     class="mx-auto w-full max-w-xs space-y-4"
@@ -22,7 +76,7 @@ import Layout from "../layouts/Layout.astro";
         type="email"
         placeholder="johndoe@gmail.com"
         autocomplete="email"
-        class="rounded-full border border-black px-3 py-1.5 placeholder:text-gray-400"
+        class="rounded border border-black px-3 py-1.5 placeholder:text-gray-400"
       />
     </div>
     <div class="flex w-full flex-col gap-y-1">
@@ -35,16 +89,11 @@ import Layout from "../layouts/Layout.astro";
         placeholder="password"
         autocomplete="current-password"
         minlength={6}
-        class="rounded-full border border-black px-3 py-1.5 placeholder:text-gray-400"
+        class="rounded border border-black px-3 py-1.5 placeholder:text-gray-400"
       />
     </div>
     <div class="flex items-center gap-2">
-      <button
-        class="rounded-full border border-black bg-black px-3 py-1.5 text-white transition-all duration-300 ease-in-out hover:bg-white hover:text-black"
-        type="submit"
-      >
-        <span>Log in</span>
-      </button>
+      <Button text="Login" />
       <div class="htmx-indicator" id="loader" x-cloak>
         <Icon name="loader" class="h-6 w-6 animate-spin text-black" />
       </div>
