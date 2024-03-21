@@ -1,6 +1,7 @@
 ---
 export const partial = true;
 import MovieLink from "@/components/movie-link.astro";
+import { poster_base_url } from "@/lib/config";
 import { getSearch } from "@/lib/search";
 const name = Astro.url.searchParams.get("name");
 const movies = await getSearch(name);
@@ -8,6 +9,10 @@ const movies = await getSearch(name);
 
 {
   movies?.map((movie) => {
-    return <MovieLink title={movie.title} poster={movie.poster_path} />;
+    const poster_path = movie.poster_path
+      ? `${poster_base_url}${movie.poster_path}`
+      : "https://via.placeholder.com/200x300/e6e6e6/969696?text=No+Poster+Avaiable";
+
+    return <MovieLink title={movie.title} poster={poster_path} />;
   })
 }

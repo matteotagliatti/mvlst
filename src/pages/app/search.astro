@@ -1,19 +1,37 @@
 ---
 import Button from "@/components/ui/button.astro";
+import Card from "@/components/ui/card.astro";
+import Input from "@/components/ui/input.astro";
 import Layout from "@/layouts/AppLayout.astro";
+import { Icon } from "astro-icon/components";
+
+const isLogged: boolean = Astro.locals.pb.authStore.isValid;
+
+if (!isLogged) {
+  return Astro.redirect("/");
+}
 ---
 
 <Layout title="Search">
-  <form hx-get="/api/search" hx-params="*" hx-target="#search">
-    <input
-      class="rounded border border-black"
-      type="text"
-      name="name"
-      id="name"
-      required
-      placeholder="test"
-    />
-    <Button text="Search" />
-  </form>
-  <section class="grid grid-cols-2 gap-4" id="search"></section>
+  <Card title="Search">
+    <form
+      class="flex flex-col gap-2"
+      hx-get="/api/search"
+      hx-params="*"
+      hx-target="#search"
+      hx-indicator="#loader"
+    >
+      <Input type="search" name="name" placeholder="Lord of the Rings" />
+      <Button className="self-end">
+        <span>Search</span>
+        <Icon
+          id="loader"
+          name="loader"
+          class="htmx-indicator h-6 w-6 animate-spin text-black"
+          x-cloak
+        />
+      </Button>
+    </form>
+  </Card>
+  <section class="grid grid-cols-2 gap-2" id="search"></section>
 </Layout>
