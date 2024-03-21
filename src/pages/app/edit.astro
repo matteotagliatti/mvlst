@@ -1,0 +1,29 @@
+---
+import MovieForm from "@/components/movie-form.astro";
+import Card from "@/components/ui/card.astro";
+import Layout from "@/layouts/AppLayout.astro";
+import { getMovie } from "@/lib/pocketbase";
+
+const id = Astro.url.searchParams.get("id");
+
+const isLogged: boolean = Astro.locals.pb.authStore.isValid;
+
+if (!isLogged || !id) {
+  return Astro.redirect("/");
+}
+
+const movie = await getMovie(Astro.locals.pb, id);
+---
+
+<Layout title={`Edit ${movie.title}`}>
+  <Card title="Edit Movie">
+    <MovieForm
+      edit={true}
+      id={movie.id}
+      title={movie.title}
+      poster={movie.poster}
+      liked={false}
+      status="watched"
+    />
+  </Card>
+</Layout>

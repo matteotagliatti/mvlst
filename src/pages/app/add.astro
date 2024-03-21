@@ -1,0 +1,20 @@
+---
+import MovieForm from "@/components/movie-form.astro";
+import Card from "@/components/ui/card.astro";
+import Layout from "@/layouts/AppLayout.astro";
+
+const title = Astro.url.searchParams.get("title");
+const poster = Astro.url.searchParams.get("poster");
+
+const isLogged: boolean = Astro.locals.pb.authStore.isValid;
+
+if (!isLogged || !title || !poster) {
+  return Astro.redirect("/");
+}
+---
+
+<Layout title={`Add ${title}`}>
+  <Card title="Add Movie">
+    <MovieForm title={title} poster={poster} liked={false} status="watched" />
+  </Card>
+</Layout>
