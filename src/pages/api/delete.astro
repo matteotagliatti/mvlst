@@ -1,0 +1,20 @@
+---
+if (Astro.request.method === "POST") {
+  const id = Astro.url.searchParams.get("id");
+
+  try {
+    await Astro.locals.pb.collection("movies").delete(id);
+  } catch {
+    return new Response("Error deleting movie", {
+      status: 500,
+    });
+  }
+
+  return new Response("Movie deleted", {
+    status: 200,
+    headers: {
+      "HX-Redirect": "/app",
+    },
+  });
+}
+---

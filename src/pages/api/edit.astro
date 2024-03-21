@@ -1,0 +1,33 @@
+---
+import type { MovieStatus } from "@/types/movies";
+
+if (Astro.request.method === "POST") {
+  const id = Astro.url.searchParams.get("id");
+
+  const formData = await Astro.request.formData();
+  const title = String(formData.get("title"));
+  const poster = String(formData.get("poster"));
+  const liked = formData.get("liked") === "on";
+  const status = String(formData.get("status")) as MovieStatus;
+
+  try {
+    await Astro.locals.pb.collection("movies").update(id, {
+      title: title,
+      poster: poster,
+      liked: liked,
+      status: status,
+    });
+  } catch {
+    return new Response("Error updating movie", {
+      status: 500,
+    });
+  }
+
+  return new Response("Movie updated", {
+    status: 200,
+    headers: {
+      "HX-Redirect": "/app",
+    },
+  });
+}
+---
