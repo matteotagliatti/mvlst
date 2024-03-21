@@ -1,0 +1,57 @@
+---
+import Button from "@/components/ui/button.astro";
+import Input from "@/components/ui/input.astro";
+import type { MovieStatus } from "@/types/movies";
+
+interface Props {
+  title: string;
+  poster: string;
+  liked: boolean;
+  status: MovieStatus;
+  edit?: boolean;
+  id?: string;
+}
+
+const { title, poster, liked, status, edit, id } = Astro.props;
+const link = edit ? `edit?id=${id}` : "add";
+---
+
+<form hx-post=`/api/${link}` hx-params="*">
+  {
+    link === "edit" ?? id ? (
+      <input type="hidden" name="_method" value={id} id={id} name={id} />
+    ) : null
+  }
+  <Input
+    type="text"
+    placeholder="Title"
+    id="title"
+    name="title"
+    value={title}
+  />
+  <Input
+    type="text"
+    placeholder="Poster"
+    id="poster"
+    name="poster"
+    value={poster}
+  />
+  <div>
+    <label for="liked">Liked</label>
+    <input type="checkbox" id="liked" name="liked" checked={liked} />
+  </div>
+  <div>
+    <select id="status" name="status" value={status}>
+      <option value="watched">Watched</option>
+      <option value="to-watch">To Watch</option>
+    </select>
+  </div>
+  <Button>Submit</Button>
+</form>
+{
+  link === "edit" ?? id ? (
+  <form hx-post=`/api/delete?id=${id}`>
+      <Button>Delete</Button>
+    </form>
+  ) : null
+}

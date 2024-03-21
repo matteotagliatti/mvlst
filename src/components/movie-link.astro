@@ -2,18 +2,16 @@
 interface Props {
   title: string;
   poster: string;
+  edit?: boolean;
 }
 
-const { title, poster } = Astro.props;
+const { title, poster, edit } = Astro.props;
+const link = edit ? "edit" : "add";
 ---
 
 <a
-  href="#"
+  href=`/app/${link}?title=${title}&poster=${poster}`
   class="w-fit rounded transition-all hover:-translate-y-1 hover:shadow"
 >
-  <img
-    class="rounded"
-    src=`https://image.tmdb.org/t/p/w200/${poster}`
-    alt={title}
-  />
+  <img class="rounded" src={poster} alt={title} />
 </a>
