@@ -1,0 +1,48 @@
+---
+import Title from "@/components/title.astro";
+import Button from "@/components/ui/button.astro";
+import Input from "@/components/ui/input.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Register">
+  <main>
+    <Title title="Register">
+      Already have an account? <a class="underline" href="/login">Login</a>
+    </Title>
+    <form hx-post="/api/register" hx-target="#error">
+      <div class="mb-3 space-y-1.5">
+        <label class="text-sm" for="email">Email</label>
+        <Input
+          required
+          id="email"
+          name="email"
+          type="email"
+          placeholder="john@doe.com"
+        />
+      </div>
+      <div class="mb-5 space-y-1.5">
+        <label class="text-sm" for="password">Password</label>
+        <Input
+          required
+          id="password"
+          name="password"
+          type="password"
+          placeholder="********"
+          minlength={6}
+        />
+      </div>
+      <Button>
+        <!-- <div class="htmx-indicator" id="loader" x-cloak>
+        <Icon name="loader" class="h-6 w-6 animate-spin text-black" />
+      </div> -->
+        Register
+      </Button>
+      <div
+        id="error"
+        class="my-4 flex w-full items-center justify-center text-sm text-red-500"
+      >
+      </div>
+    </form>
+  </main>
+</Layout>

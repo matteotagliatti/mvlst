@@ -1,8 +1,8 @@
 ---
-import NavLink from "@/components/nav-link.astro";
+import Title from "@/components/title.astro";
 import Button from "@/components/ui/button.astro";
+import Input from "@/components/ui/input.astro";
 import Layout from "@/layouts/Layout.astro";
-import { Icon } from "astro-icon/components";
 import { z } from "zod";
 
 if (Astro.request.method === "POST") {
@@ -59,46 +59,51 @@ if (Astro.request.method === "POST") {
 ---
 
 <Layout title="Login">
-  <form
-    hx-post="/login"
-    hx-target="#error"
-    hx-indicator="#loader"
-    class="mx-auto w-full max-w-xs space-y-4"
-  >
-    <NavLink href="/" icon="back" />
-    <div class="flex w-full flex-col gap-y-1">
-      <label class="text-sm" for="email">Email address</label>
-      <input
-        required
-        autofocus
-        id="email"
-        name="email"
-        type="email"
-        placeholder="johndoe@gmail.com"
-        autocomplete="email"
-        class="rounded border border-black px-3 py-1.5 placeholder:text-gray-400"
-      />
-    </div>
-    <div class="flex w-full flex-col gap-y-1">
-      <label class="text-sm" for="password">Password</label>
-      <input
-        required
-        id="password"
-        name="password"
-        type="password"
-        placeholder="password"
-        autocomplete="current-password"
-        minlength={6}
-        class="rounded border border-black px-3 py-1.5 placeholder:text-gray-400"
-      />
-    </div>
-    <div class="flex items-center gap-2">
-      <Button>Login</Button>
-      <div class="htmx-indicator" id="loader" x-cloak>
-        <Icon name="loader" class="h-6 w-6 animate-spin text-black" />
+  <main>
+    <Title title="Login">
+      Don't have an account? <a class="underline" href="/register">Register</a>
+    </Title>
+    <form hx-post="/login" hx-target="#error" hx-indicator="#loader" class="">
+      <div class="mb-3 space-y-1.5">
+        <label class="text-sm" for="email">Email</label>
+        <Input
+          required
+          id="email"
+          name="email"
+          type="email"
+          placeholder="john@doe.com"
+        />
       </div>
+      <div class="mb-5 space-y-1.5">
+        <label class="text-sm" for="password">Password</label>
+        <Input
+          required
+          id="password"
+          name="password"
+          type="password"
+          placeholder="********"
+          minlength={6}
+        />
+      </div>
+      <Button>
+        <!-- <div class="htmx-indicator" id="loader" x-cloak>
+            <Icon name="loader" class="h-6 w-6 animate-spin text-black" />
+          </div> -->
+        Login
+      </Button>
+      <div
+        id="error"
+        class="my-4 flex w-full items-center justify-center text-sm text-red-500"
+      >
+      </div>
+    </form>
+    <div>
+      <hr class="mb-4 w-full border border-foreground" />
+      <p class="text-sm">
+        Forgot your password? <a class="underline" href="/forgot-password"
+          >Change it!</a
+        >
+      </p>
     </div>
-
-    <div id="error" class="text-sm text-red-500"></div>
-  </form>
+  </main>
 </Layout>

@@ -5,12 +5,12 @@ interface Props {
   className?: string;
 }
 
-const { text, className } = Astro.props;
+const { className } = Astro.props;
 ---
 
 <button
   class={twMerge(
-    `rounded-full border border-black bg-black px-3 py-1.5 text-white transition-all duration-300 ease-in-out hover:bg-white hover:text-black flex items-center justify-center gap-2 ${className}`
+    `w-full rounded bg-foreground py-2.5 border border-border text-sm flex justify-center items-center text-headers ${className}`
   )}
   type="submit"
 >

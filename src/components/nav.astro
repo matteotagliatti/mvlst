@@ -1,33 +1,33 @@
 ---
-import NavButton from "./nav-button.astro";
-import NavLink from "./nav-link.astro";
-import Tooltip from "./ui/tooltip.astro";
 const isLogged: boolean = Astro.locals.pb.authStore.isValid;
 ---
 
-<nav
-  class="fixed bottom-4 left-1/2 flex w-fit -translate-x-1/2 items-center justify-center gap-2 rounded-xl border border-black bg-white p-2"
->
-  {
-    isLogged ? (
-      <>
-        <NavLink icon="search" href="/app/search">
-          <Tooltip text="Search a movie" />
-        </NavLink>
-        <NavLink icon="popcorn" href="/app">
-          <Tooltip text="Your Watchlist" />
-        </NavLink>
-        <NavLink icon="clapperboard" href="/app/to-watch">
-          <Tooltip text="To Watch" />
-        </NavLink>
-        <NavButton icon="user">
-          <Tooltip text="Logout" />
-        </NavButton>
-      </>
-    ) : (
-      <NavLink icon="login" href="/login">
-        <Tooltip text="Login" />
-      </NavLink>
-    )
-  }
+<nav class="flex items-center justify-between gap-4 pb-16">
+  <div>Logo</div>
+  <div class="flex items-center gap-4">
+    {
+      isLogged ? (
+        <>
+          <a class="text-sm underline" href="/app/search">
+            Search
+          </a>
+          <a class="text-sm underline" href="/app">
+            Watched
+          </a>
+          <a class="text-sm underline" href="/app/to-watch">
+            To Watch
+          </a>
+        </>
+      ) : (
+        <>
+          <a class="text-sm underline" href="/login">
+            Login
+          </a>
+          <a class="text-sm underline" href="/register">
+            Register
+          </a>
+        </>
+      )
+    }
+  </div>
 </nav>
