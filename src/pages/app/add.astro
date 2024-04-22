@@ -1,6 +1,6 @@
 ---
 import MovieForm from "@/components/movie-form.astro";
-import Card from "@/components/ui/card.astro";
+import Title from "@/components/title.astro";
 import Layout from "@/layouts/AppLayout.astro";
 
 const title = Astro.url.searchParams.get("title");
@@ -14,7 +14,8 @@ if (!isLogged || !title || !poster) {
 ---
 
 <Layout title={`Add ${title}`}>
-  <Card title="Add Movie">
+  <main class="mx-auto max-w-md lg:py-10">
+    <Title title="Add"> Add to your watched list.</Title>
     <MovieForm title={title} poster={poster} liked={false} status="watched" />
-  </Card>
+  </main>
 </Layout>

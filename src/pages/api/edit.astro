@@ -26,7 +26,7 @@ if (Astro.request.method === "POST") {
   return new Response("Movie updated", {
     status: 200,
     headers: {
-      "HX-Redirect": "/app",
+      "HX-Redirect": `/app/${status === "watched" ? "" : "to-watch"}`,
     },
   });
 }

@@ -3,6 +3,7 @@ import Title from "@/components/title.astro";
 import Button from "@/components/ui/button.astro";
 import Input from "@/components/ui/input.astro";
 import Layout from "@/layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
 import { z } from "zod";
 
 if (Astro.request.method === "POST") {
@@ -59,7 +60,7 @@ if (Astro.request.method === "POST") {
 ---
 
 <Layout title="Login">
-  <main>
+  <main class="mx-auto max-w-md lg:py-20">
     <Title title="Login">
       Don't have an account? <a class="underline" href="/register">Register</a>
     </Title>
@@ -86,10 +87,13 @@ if (Astro.request.method === "POST") {
         />
       </div>
       <Button>
-        <!-- <div class="htmx-indicator" id="loader" x-cloak>
-            <Icon name="loader" class="h-6 w-6 animate-spin text-black" />
-          </div> -->
         Login
+        <Icon
+          id="loader"
+          name="loader"
+          class="htmx-indicator h-6 w-6 animate-spin text-white"
+          x-cloak
+        />
       </Button>
       <div
         id="error"

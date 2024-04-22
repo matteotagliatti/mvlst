@@ -2,11 +2,12 @@
 import Title from "@/components/title.astro";
 import Button from "@/components/ui/button.astro";
 import Input from "@/components/ui/input.astro";
+import { Icon } from "astro-icon/components";
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Register">
-  <main>
+  <main class="mx-auto max-w-md lg:py-20">
     <Title title="Register">
       Already have an account? <a class="underline" href="/login">Login</a>
     </Title>
@@ -33,10 +34,13 @@ import Layout from "../layouts/Layout.astro";
         />
       </div>
       <Button>
-        <!-- <div class="htmx-indicator" id="loader" x-cloak>
-        <Icon name="loader" class="h-6 w-6 animate-spin text-black" />
-      </div> -->
         Register
+        <Icon
+          id="loader"
+          name="loader"
+          class="htmx-indicator h-6 w-6 animate-spin text-white"
+          x-cloak
+        />
       </Button>
       <div
         id="error"

@@ -1,0 +1,29 @@
+---
+import Layout from "@/layouts/AppLayout.astro";
+import { getToWatchMovies } from "@/lib/pocketbase";
+
+const isLogged: boolean = Astro.locals.pb.authStore.isValid;
+
+if (!isLogged) {
+  return Astro.redirect("/");
+}
+
+const movies = await getToWatchMovies(Astro.locals.pb);
+---
+
+<Layout title="mvlst">
+  <section class="grid grid-cols-2 gap-2">
+    {
+      movies.map((movie) => {
+        return (
+          <a
+            href={`/app/edit?id=${movie.id}`}
+            class="w-fit rounded transition-all hover:-translate-y-1"
+          >
+            <img class="rounded" src={movie.poster} alt={movie.title} />{" "}
+          </a>
+        );
+      })
+    }
+  </section>
+</Layout>

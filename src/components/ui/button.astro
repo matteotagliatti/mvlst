@@ -10,7 +10,7 @@ const { className } = Astro.props;
 
 <button
   class={twMerge(
-    `w-full rounded bg-foreground py-2.5 border border-border text-sm flex justify-center items-center text-headers ${className}`
+    `w-full transition-colors rounded bg-foreground hover:bg-foreground/80 py-2.5 border border-border text-sm flex justify-center gap-2 items-center text-headers ${className}`
   )}
   type="submit"
 >

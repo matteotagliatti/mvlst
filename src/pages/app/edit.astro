@@ -1,6 +1,6 @@
 ---
 import MovieForm from "@/components/movie-form.astro";
-import Card from "@/components/ui/card.astro";
+import Title from "@/components/title.astro";
 import Layout from "@/layouts/AppLayout.astro";
 import { getMovie } from "@/lib/pocketbase";
 
@@ -16,14 +16,15 @@ const movie = await getMovie(Astro.locals.pb, id);
 ---
 
 <Layout title={`Edit ${movie.title}`}>
-  <Card title="Edit Movie">
+  <main class="mx-auto max-w-md lg:py-10">
+    <Title title="Edit"> Edit the movie. </Title>
     <MovieForm
       edit={true}
       id={movie.id}
       title={movie.title}
       poster={movie.poster}
-      liked={false}
-      status="watched"
+      liked={movie.liked}
+      status={movie.status}
     />
-  </Card>
+  </main>
 </Layout>

@@ -1,6 +1,6 @@
 import type { MoviesResponse, TypedPocketBase } from "@/types/pocketbase";
 
-export async function getMovies(
+export async function getWatchedMovies(
   pb: TypedPocketBase,
 ): Promise<MoviesResponse[]> {
   if (!pb.authStore.model) {
@@ -11,7 +11,28 @@ export async function getMovies(
 
   try {
     let result = await pb.collection("movies").getList(1, 10, {
-      filter: `user_id="${pb.authStore.model.id}"`,
+      filter: `user_id="${pb.authStore.model.id}" && status="watched"`,
+    });
+    movies = result.items;
+  } catch (e) {
+    console.log(e);
+  }
+
+  return movies;
+}
+
+export async function getToWatchMovies(
+  pb: TypedPocketBase,
+): Promise<MoviesResponse[]> {
+  if (!pb.authStore.model) {
+    return [];
+  }
+
+  let movies: MoviesResponse[] = [];
+
+  try {
+    let result = await pb.collection("movies").getList(1, 10, {
+      filter: `user_id="${pb.authStore.model.id}" && status="to-watch"`,
     });
     movies = result.items;
   } catch (e) {

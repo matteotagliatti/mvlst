@@ -1,6 +1,6 @@
 ---
+import Title from "@/components/title.astro";
 import Button from "@/components/ui/button.astro";
-import Card from "@/components/ui/card.astro";
 import Input from "@/components/ui/input.astro";
 import Layout from "@/layouts/AppLayout.astro";
 import { Icon } from "astro-icon/components";
@@ -13,7 +13,8 @@ if (!isLogged) {
 ---
 
 <Layout title="Search">
-  <Card title="Search">
+  <main class="mx-auto max-w-md lg:pt-20">
+    <Title title="Search"> Search for your favorite movies. </Title>
     <form
       class="flex flex-col gap-2"
       hx-get="/api/search"
@@ -27,11 +28,15 @@ if (!isLogged) {
         <Icon
           id="loader"
           name="loader"
-          class="htmx-indicator h-6 w-6 animate-spin text-black"
+          class="htmx-indicator h-6 w-6 animate-spin text-white"
           x-cloak
         />
       </Button>
     </form>
-  </Card>
-  <section class="grid grid-cols-2 gap-2" id="search"></section>
+  </main>
+  <section
+    class="mx-auto grid w-full max-w-3xl grid-cols-2 gap-4 py-4 lg:grid-cols-4"
+    id="search"
+  >
+  </section>
 </Layout>
