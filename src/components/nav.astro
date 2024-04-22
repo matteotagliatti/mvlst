@@ -1,5 +1,9 @@
 ---
-const isLogged: boolean = Astro.locals.pb.authStore.isValid;
+interface Props {
+  isLogged: boolean;
+}
+
+const { isLogged } = Astro.props;
 ---
 
 <nav class="flex items-center justify-between gap-4 pb-4">

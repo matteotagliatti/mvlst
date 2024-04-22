@@ -3,7 +3,64 @@ import Title from "@/components/title.astro";
 import Button from "@/components/ui/button.astro";
 import Input from "@/components/ui/input.astro";
 import { Icon } from "astro-icon/components";
+import { z } from "zod";
 import Layout from "../layouts/Layout.astro";
+
+if (Astro.request.method === "POST") {
+  // 1. Get the data and validate it
+  const data = await Astro.request.formData();
+  const email = String(data.get("email"));
+  const password = String(data.get("password"));
+
+  const result = z
+    .object({
+      email: z
+        .string({
+          invalid_type_error: "Invalid email",
+          required_error: "Email is required",
+        })
+        .trim()
+        .toLowerCase()
+        .min(1, "Email is required")
+        .email(),
+      password: z
+        .string({
+          invalid_type_error: "Invalid password",
+          required_error: "Password is required",
+        })
+        .min(6, "Password must be atlest 6 digit long"),
+    })
+    .safeParse({ email, password });
+
+  if (!result.success) {
+    return new Response(JSON.stringify(result.error.errors[0].message), {
+      status: 200,
+      statusText: "Bad Request",
+    });
+  }
+
+  // 2. Start the register process
+  try {
+    await Astro.locals.pb
+      .collection("users")
+      .create({ email: email, password: password, passwordConfirm: password });
+
+    await Astro.locals.pb.collection("users").authWithPassword(email, password);
+
+    return new Response("Logged in", {
+      status: 200,
+      statusText: "OK",
+      headers: {
+        "HX-Redirect": "/app",
+      },
+    });
+  } catch (error) {
+    return new Response("Failed to authenticate", {
+      status: 200,
+      statusText: "Unauthorized",
+    });
+  }
+}
 ---
 
 <Layout title="Register">
@@ -11,7 +68,7 @@ import Layout from "../layouts/Layout.astro";
     <Title title="Register">
       Already have an account? <a class="underline" href="/login">Login</a>
     </Title>
-    <form hx-post="/api/register" hx-target="#error">
+    <form hx-post="/register" hx-target="#error">
       <div class="mb-3 space-y-1.5">
         <label class="text-sm" for="email">Email</label>
         <Input
