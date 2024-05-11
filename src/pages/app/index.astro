@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/AppLayout.astro";
 import { getWatchedMovies } from "@/lib/pocketbase";
+import { Icon } from "astro-icon/components";
 
 const isLogged: boolean = Astro.locals.pb.authStore.isValid;
 
@@ -18,8 +19,14 @@ const movies = await getWatchedMovies(Astro.locals.pb);
         return (
           <a
             href={`/app/edit?id=${movie.id}`}
-            class="w-fit rounded transition-all hover:-translate-y-1"
+            class="relative w-fit rounded transition-all hover:-translate-y-1"
           >
+            {movie.liked && (
+              <Icon
+                class="absolute bottom-2 right-2 h-8 w-8 text-red-600"
+                name="heart"
+              />
+            )}
             <img class="rounded" src={movie.poster} alt={movie.title} />{" "}
           </a>
         );
