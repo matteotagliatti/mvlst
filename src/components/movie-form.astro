@@ -50,8 +50,8 @@ const link = edit ? `edit?id=${id}` : "add";
     <div class="space-y-1.5 mb-5">
       <label for="status" class="text-sm">Status</label>
       <select class="w-full rounded border border-border bg-background px-3 py-1.5 placeholder:text-text/60"  id="status" name="status" value={status}>
-        <option value="to-watch">To Watch</option>
-        <option value="watched">Watched</option>
+        <option value="watched" selected={status === 'watched' ? true : false}>Watched</option>
+        <option value="to-watch" selected={status === 'to-watch' ? true : false}>To Watch</option>
       </select>
     </div>
     <div class="space-y-1.5 mb-3">

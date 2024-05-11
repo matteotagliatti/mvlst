@@ -7,6 +7,7 @@ if (Astro.request.method === "POST") {
   const poster = String(formData.get("poster"));
   const liked = formData.get("liked") === "on";
   const status = String(formData.get("status")) as MovieStatus;
+  console.log(status);
 
   try {
     await Astro.locals.pb.collection("movies").create({

@@ -5,18 +5,16 @@ export async function getSearch(name: string | null) {
     return;
   }
 
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${import.meta.env.TMDB_ACCESS_TOKEN}`,
-    },
-  };
-
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/search/movie?query=${name}&include_adult=false&language=en-US&page=1`,
-      options,
+      {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${import.meta.env.TMDB_ACCESS_TOKEN}`,
+        },
+      },
     );
 
     const data = await response.json();
@@ -25,5 +23,6 @@ export async function getSearch(name: string | null) {
     return movies;
   } catch (e) {
     console.log(e);
+    throw new Error("Failed to fetch search results");
   }
 }

@@ -22,7 +22,12 @@ if (!isLogged) {
       hx-target="#search"
       hx-indicator="#loader"
     >
-      <Input type="search" name="name" placeholder="Lord of the Rings" />
+      <Input
+        required
+        type="search"
+        name="name"
+        placeholder="Lord of the Rings"
+      />
       <Button className="self-end">
         <span>Search</span>
         <Icon

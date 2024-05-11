@@ -21,6 +21,25 @@ const { isLogged } = Astro.props;
           <a class="text-sm underline" href="/app/to-watch">
             To Watch
           </a>
+          <div x-data="{ open: false }">
+            <button
+              class="text-sm underline"
+              @click="open = !open"
+              @keydown.escape="isOpen = false"
+            >
+              User
+            </button>
+            <form
+              class="absolute right-4 top-12 z-20 overflow-hidden rounded border border-border px-4 py-2"
+              x-show="open"
+              @click.away="open = false"
+              hx-post="/api/logout"
+            >
+              <button class="text-sm underline" type="submit">
+                Logout
+              </button>
+            </form>
+          </div>
         </>
       ) : (
         <>
