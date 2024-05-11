@@ -1,5 +1,7 @@
 # mvlst
 
+![img](/public/share.png)
+
 A simple movie tracker made with Astro, Alpine, HTMX and the [TMDB](https://developer.themoviedb.org/docs/getting-started) API.
 
 ## Dev
